@@ -1,0 +1,33 @@
+﻿@inject Cart Cart
+@inject NavigationManager Nav
+
+<form method="post" @formname="@($"addtocart-{Item.Id}")" @onsubmit="HandleAddToCart" data-enhance>
+    <AntiforgeryToken />
+    <input type="hidden" name="ItemId" value="@Item.Id" />
+    <input type="hidden" name="ItemName" value="@Item.Name" />
+    <button type="submit" title=@($"Add {@Item.Name} to cart?")>Add to cart</button>
+</form>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public required Item Item { get; set; }
+
+    [SupplyParameterFromForm]
+    public int ItemId { get; set; }
+
+    [SupplyParameterFromForm]
+    public string? ItemName { get; set; }
+
+    private async Task HandleAddToCart()
+    {
+        // Add item to cart
+        await Task.Delay(50);
+
+        await Cart.AddToCartAsync("user", ItemId);
+        Console.WriteLine($"Added '{ItemName}' with id {ItemId} to cart.");
+
+        // Redirect back (Post-Redirect-Get)
+        Nav.NavigateTo("/");
+    }
+}

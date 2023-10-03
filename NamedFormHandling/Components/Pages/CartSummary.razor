@@ -1,0 +1,36 @@
+﻿@inject Cart Cart
+
+@if (cartAvailable is not null)
+{
+    if (cartAvailable == true)
+    {
+        <div class="text-success">
+            <strong>@itemCount</strong> item(s) in cart
+        </div>
+    }
+    else
+    {
+        <div class="text-danger">
+            Cart not available
+        </div>
+    }
+}
+
+@code {
+    private bool? cartAvailable;
+    private int itemCount;
+
+    [Parameter]
+    public EventCallback<bool> CartAvailabilityChanged { get; set; }
+
+    override protected async Task OnInitializedAsync()
+    {
+        // Simulate remote call
+        await Task.Delay(50);
+
+        itemCount = await Cart.GetItemCountAsync("user");
+        cartAvailable = true;
+
+        await CartAvailabilityChanged.InvokeAsync(true);
+    }
+}

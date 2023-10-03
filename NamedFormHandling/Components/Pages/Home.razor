@@ -1,0 +1,53 @@
+﻿@page "/"
+@attribute [StreamRendering(true)]
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<CartSummary CartAvailabilityChanged="HandleCartAvailabilityChanged" />
+
+<h2>Catalog</h2>
+
+@if (items is not null)
+{
+    @foreach (var item in items)
+    {
+        <div>
+            <strong>@item.Name</strong>
+            @if (addToCartAvailable)
+            {
+                <AddToCart Item="item" />
+            }
+        </div>
+    }
+}
+else
+{
+    <p>Loading items...</p>
+}
+
+@* @if (!string.IsNullOrEmpty(message))
+{
+    <p>@message</p>
+} *@
+
+@code {
+    private List<Item>? items;
+    //private string? message;
+    private bool addToCartAvailable;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load items
+        await Task.Delay(75);
+        items = [new(1, "Item 1"), new(2, "Item 2"), new(3, "Item 3")];
+    }
+
+    private void HandleCartAvailabilityChanged(bool isAvailable)
+    {
+        addToCartAvailable = isAvailable;
+    }
+}

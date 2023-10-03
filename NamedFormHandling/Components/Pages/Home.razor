@@ -29,14 +29,8 @@ else
     <p>Loading items...</p>
 }
 
-@* @if (!string.IsNullOrEmpty(message))
-{
-    <p>@message</p>
-} *@
-
 @code {
     private List<Item>? items;
-    //private string? message;
     private bool addToCartAvailable;
 
     protected override async Task OnInitializedAsync()

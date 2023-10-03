@@ -11,9 +11,9 @@ Welcome to your new app.
 
 <h2>Catalog</h2>
 
-@if (items is not null)
+@if (catalog is not null)
 {
-    @foreach (var item in items)
+    @foreach (var item in catalog)
     {
         <div>
             <strong>@item.Name</strong>
@@ -30,14 +30,14 @@ else
 }
 
 @code {
-    private List<Item>? items;
+    private List<Item>? catalog;
     private bool addToCartAvailable;
 
     protected override async Task OnInitializedAsync()
     {
         // Load items
         await Task.Delay(75);
-        items = [new(1, "Item 1"), new(2, "Item 2"), new(3, "Item 3")];
+        catalog = [new(1, "Item 1"), new(2, "Item 2"), new(3, "Item 3")];
     }
 
     private void HandleCartAvailabilityChanged(bool isAvailable)
